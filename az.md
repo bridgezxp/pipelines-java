@@ -12,13 +12,25 @@ Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
 Import-Module Az
 ```
 
-bash
+**bash**
+
+适用于Linux的Windows子系统 （[Windows Subsystem for Linux](https://zhida.zhihu.com/search?content_id=252464055&content_type=Article&match_order=1&q=Windows+Subsystem+for+Linux&zhida_source=entity)， WSL ）\
+
+****程序**> 适用于 Linux 的 Windows 子系统** ”与“**虚拟机平台**
+
+再下载ubuntu， 重启即可
+
+?wsl --install
+
+[在 Windows 上安装 Azure CLI](https://learn.microsoft.com/zh-cn/cli/azure/install-azure-cli-windows?pivots=msi)
 
 ```bash
 az cloud set --name AzureChinaCloud
 Switched active cloud to 'AzureChinaCloud'.
 Use 'az login' to log in to this cloud.
 Use 'az account set' to set the active subscription.
+
+az login --allow-no-subscriptions
 ```
 
 ## Cosmos DB
@@ -851,8 +863,8 @@ az acr list --resource-group $rgName --query "[].{loginServer: loginServer}" --o
 #reg0217.azurecr.io
 
 # az aks get-versions
-az aks create --name $rgName-aks --resource-group $rgName --enable-addons monitoring --kubernetes-version 1.31.5 --generate-ssh-keys
-
+az aks create --name $rgName-aks --resource-group $rgName --kubernetes-version 1.31.5 --generate-ssh-keys # --enable-addons monitoring
+az aks get-credentials --resource-group $rgName --name $rgName-aks
 # 创建一个变量，用于存储为 AKS ACR实例配置的服务主体的 ID, 授权 AKS 群集访问 ACR
 aksId=$(az aks show --resource-group $rgName --name $rgName-aks --query "identityProfile.kubeletidentity.clientId" --output tsv)
 
@@ -890,7 +902,7 @@ RegistryName: reg0217.azurecr.io
 ENV:  akscanary **Kubernetes new namespace: *canarydemo
 *akspromote* use the above namespace***
 
-1. Create a new Kubernetes environment called  *akspromote* .
+1. Create a new Kubernetes environment called  ***akspromote*** .
 2. Open the new **akspromote** environment from the list of environments, and select **Approvals** on the **Approvals and checks** tab.
 3. On the **Approvals** screen, add your own user account under  **Approvers** .
 4. Expand  **Advanced** , and make sure **Allow approvers to approve their own runs** is selected.
@@ -906,8 +918,16 @@ starter pipeline
 3. On the **Approvals** screen, add your own user account under  **Approvers** .
 4. Expand  **Advanced** , and make sure **Allow approvers to approve their own runs** is selected.
 
+
+```bash
+kubectl run client --image busybox -- sleep infinity
+
+```
+
 https://learn.microsoft.com/zh-cn/azure/devops/pipelines/ecosystems/kubernetes/canary-demo?view=azure-devops&tabs=yaml
 
 https://dev.azure.com/downdlu/_git/azure%20pipelines%20canary%20k8s?path=/azure-pipelines.yml
 
 https://portal.azure.com/#view/HubsExtension/BrowseResourceGroups.ReactView
+
+https://blog.51cto.com/u_13236892/13082693
